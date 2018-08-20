@@ -1,0 +1,13 @@
+Hello! I'm Aaron Bolyard and this is my third semester at FTCC. I've been programming for a little bit prior to school and used a lot of different languages, but for FTCC specifically I've learned Python and JavaScript. Outside of school I've learned or used Lua and C/C++ primarily.
+
+I'm working on a game called ItsyRealm written in Lua. I have a small blog (http://bkdoormaus.tumblr.com) and a GitHub for it (http://github.com/aaronbolyard/itsyscape). It's taking a long time...
+
+The solution to the problem:
+
+print("The Man takes the Chicken across the river.")
+print("The Man goes back empty handed.")
+print("The Man takes the Fox across the river.")
+print("The Man goes back with the Chicken.")
+print("The Man takes the Grain across the River.")
+print("The Man goes back empty handed.")
+print("The Man takes the Chicken across the River.")
