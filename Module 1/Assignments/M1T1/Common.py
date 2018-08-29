@@ -26,7 +26,7 @@ def get_float(prompt, filter=None):
 
 		return value
 	except ValueError:
-		print("Input not an float; please try again.")
+		print("Input not a float; please try again.")
 		return get_float(prompt, filter)
 
 def calc_min_dimension(length, max_length):
@@ -65,3 +65,29 @@ def calc_diagonal(width, depth):
 	hypotenuse = math.sqrt(width_depth_squared_sum)
 
 	return hypotenuse
+
+def square_root(value, epsilon=0.01):
+	"""
+	Calculates the square root using an iterative method.
+
+	Computes until error is less than epsilon. A default epsilon
+	is provided.
+	"""
+	if value < 0:
+		raise ValueError("Domain error: value cannot be less than zero.")
+
+	upper = value
+	lower = 0
+	
+	current_square_root = 0
+	current_square = current_square_root ** 2
+	while abs(current_square - value) >= epsilon:
+		if current_square > value:
+			upper = current_square_root
+		else:
+			lower = current_square_root
+		
+		current_square_root = (upper + lower) * 0.5
+		current_square = current_square_root ** 2
+	
+	return current_square_root
