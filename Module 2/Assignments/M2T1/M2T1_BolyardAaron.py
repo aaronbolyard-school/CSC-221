@@ -1,7 +1,7 @@
 # Aaron Bolyard
 # 2018-09-10
 # Allows the user to perform operations on strings.
-# M2T1, CSC-221
+# M2T1, CSC-221, went for Gold
 
 import Letterology
 
