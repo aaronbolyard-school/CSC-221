@@ -1,4 +1,4 @@
-from Databasemon import Databasemon
+import Databasemon
 
 GENERATIONS = [
 	('rby',   0, 151),
@@ -91,7 +91,7 @@ def find_specific_pokemon(database):
 OPERATIONS = {
 	'1': list_all_pokemon,
 	'2': find_specific_pokemon,
-	'q': False
+	'Q': False
 }
 
 def get_operation():
@@ -142,7 +142,7 @@ def main():
 	2) Exectues menu operation.
 	3) Asks the user to continue.
 	"""
-	database = Databasemon("pokemon.csv")
+	database = Databasemon.DatabasemonList("pokemon.csv")
 
 	while True:
 		operation = get_operation()

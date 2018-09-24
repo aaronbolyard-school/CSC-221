@@ -12,7 +12,51 @@ ROW_IDENTIFIER = 'identifier'
 ROW_HEIGHT = 'height'
 ROW_WEIGHT = 'weight'
 
-class Databasemon:
+class DatabasemonList:
+	"""
+	Holds a list of maps to query Pokemon.
+	"""
+
+	def __init__(self, filename):
+		"""
+		Constructs the Databasemon from a CSV file.
+
+		Expects there to be at least 'id', 'identifier', 'height', and 'weight'
+		rows named as such.
+		"""
+		self.__mons = []
+
+		with open(filename, 'r') as file:
+			reader = csv.DictReader(file)
+
+			for row in reader:
+				row[ROW_ID] = int(row[ROW_ID])
+				row[ROW_WEIGHT] = int(row[ROW_WEIGHT])
+				row[ROW_HEIGHT] = int(row[ROW_HEIGHT])
+				self.__mons.append(row)
+
+	def fuzzy_find_by_name(self, name):
+		"""
+		Finds a Pokemon in the database by 'name'.
+
+		'name' can be anywhere in the Pokemon's name. For example 'saur' returns
+		all Pokemin in thre Venusaur line, including "venusaur-mega".
+		"""
+		for mon in self.__mons:
+			if mon[ROW_IDENTIFIER].find(name) >= 0:
+				yield mon
+
+	def list(self, start=1, limit=151):
+		"""
+		Lists Pokemon in a range.
+
+		Defaults to generation 1 (RBY) (1 through 151 inclusive).
+		"""
+		for mon in self.__mons:
+			if mon[ROW_ID] > start and mon[ROW_ID] <= start + limit:
+				yield mon
+
+class DatabasemonSQL:
 	"""
 	Holds a database to query Pokemon.
 	"""
