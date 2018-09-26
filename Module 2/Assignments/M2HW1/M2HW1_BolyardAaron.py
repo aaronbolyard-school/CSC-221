@@ -32,6 +32,9 @@ def get_integer(prompt, min_value, max_value):
 		except:
 			print("There's a ghost in the machine...")
 
+RESULT_ASK_CONTINUE = 1
+RESULT_CONTINUE = 2
+
 def get_generation():
 	"""
 	Prompts the user to select a generation of Pokemon games.
@@ -68,7 +71,8 @@ def list_all_pokemon(database):
 			first = False
 
 		print(mon['identifier'], end='')
-	print()
+
+	return RESULT_ASK_CONTINUE
 
 def find_specific_pokemon(database):
 	"""
@@ -87,10 +91,68 @@ def find_specific_pokemon(database):
 			"Height:", str.format("{0:.1f}m", mon['height'] / 10).rjust(8),
 			"Weight:", str.format("{0:.1f}kg", mon['weight'] / 10).rjust(8))
 
+	return RESULT_ASK_CONTINUE
+
+def get_filename():
+	"""
+	Prompts the user for a filename. Returns it.
+	"""
+	while True:
+		value = input("Enter database filename: ").strip()
+		if len(value) > 0:
+			return value
+		else:
+			print("Please enter a filename.")
+
+def load_databasemon(database):
+	"""
+	Loads a Databasemon.
+
+	Prompts the user for the filename. Loads the Databasemon from the file.
+	"""
+	filename = get_filename()
+
+	try:
+		database.load(filename)
+		print("Loaded database.")
+	except Exception as e:
+		print("Couldn't load database from file:")
+		print(e)
+
+	return RESULT_CONTINUE
+
+def save_databasemon(database):
+	"""
+	Saves a Databasemon.
+
+	Prompts the user for the filename. Saves the Databasemon to the file.
+	"""
+	filename = get_filename()
+
+	try:
+		database.save(filename)
+		print("Saved database.")
+	except Exception as e:
+		print("Couldn't save database to file:")
+		print(e)
+
+	return RESULT_CONTINUE
+
+def clear_database(database):
+	"""
+	Clears a database.
+	"""
+	database.clear()
+
+	print("Cleared database.")
+
 
 OPERATIONS = {
 	'1': list_all_pokemon,
 	'2': find_specific_pokemon,
+	'C': clear_database,
+	'S': save_databasemon,
+	'L': load_databasemon,
 	'Q': False
 }
 
@@ -106,6 +168,9 @@ def get_operation():
 	while operation == None:
 		print("1) List Pokemon from a generation")
 		print("2) Search for Pokemon by name")
+		print("C) Clear database.")
+		print("S) Save database.")
+		print("L) Load database.")
 		print("Q) Quit")
 		value = input("Select an option: ")
 
@@ -133,26 +198,52 @@ def should_continue():
 		else:
 			print("Please enter 'y' for yes or 'n' for no.")
 
+DATABASES = {
+	'1': Databasemon.DatabasemonSQL,
+	'2': Databasemon.DatabasemonList,
+	'3': Databasemon.DatabasemonMap
+}
+
+def get_databasemon_type():
+	"""
+	Gets a databasemon type.
+	"""
+	database = None
+	while database == None:
+		print("1) SQL database")
+		print("2) List database")
+		print("3) Map database")
+		value = input("Select an option: ")
+
+		database = DATABASES.get(value.upper(), None)
+		if database == None:
+			print("Invalid option.")
+
+	return database
 
 def main():
 	"""
 	Main app loop.
-
-	1) Prompts user for menu option.
-	2) Exectues menu operation.
-	3) Asks the user to continue.
+	
+	1) Creates the database.
+	2) Prompts user for menu option.
+	3) Exectues menu operation.
+	4) Asks the user to continue.
 	"""
-	database = Databasemon.DatabasemonList("pokemon.csv")
+	DatabasemonType = get_databasemon_type()
+	database = DatabasemonType("pokemon.csv")
 
 	while True:
+		print()
 		operation = get_operation()
 
 		if operation == False:
 			break
 
-		operation(database)
+		mode = operation(database)
+		print()
 
-		if not should_continue():
+		if mode == RESULT_ASK_CONTINUE and not should_continue():
 			break
 
 	print("Good-bye!")
