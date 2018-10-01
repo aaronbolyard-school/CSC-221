@@ -1,3 +1,8 @@
+# Aaron Bolyard
+# 2018-09-23
+# Views Pokemon stored in collections.
+# M2HW1, CSC-221, Gold
+
 import Databasemon
 
 GENERATIONS = [

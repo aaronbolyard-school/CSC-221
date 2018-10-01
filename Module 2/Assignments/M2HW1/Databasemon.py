@@ -1,6 +1,6 @@
 # Aaron Bolyard
 # 2018-09-23
-# Stores Pokemon in an in-memory SQLite database.
+# Stores Pokemon in an in-memory SQLite database, list, or map.
 # M2HW1, CSC-221
 
 import sqlite3
