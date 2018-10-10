@@ -4,6 +4,7 @@
 # M2T2, CSC-221
 
 import csv
+import pickle
 from Student import Student
 
 class Grades:
@@ -13,7 +14,7 @@ class Grades:
 		"""
 		self.__students = []
 
-	def load(self, filename):
+	def loadFromCSV(self, filename):
 		"""
 		Additively loads students from 'filename'.
 
@@ -23,11 +24,16 @@ class Grades:
 		- PROGRAM: Program of student (string)
 		- GPA: GPA of student (float)
 
-		There is no header.
+		There is expected to be a header.
 		"""
 		with open(filename, 'r') as file:
 			reader = csv.reader(file)
+			header = True
 			for row in reader:
+				if header:
+					header = False
+					continue
+
 				name = row[0].strip()
 				program = row[1].strip()
 				try:
@@ -37,6 +43,31 @@ class Grades:
 					print(str.format("Error reading GPA for %s.", name))
 
 				self.__students.append(Student(name, program, gpa))
+
+	def saveToBinary(self, filename):
+		"""
+		Saves to a binary file.
+		"""
+		students = []
+		for student in self.__students:
+			students.append((
+				student.getName(),
+				student.getProgram(),
+				student.getGPA(),
+			))
+
+		with open(filename, 'wb') as file:
+			pickle.dump(students, file)
+
+	def loadFromBinary(self, filename):
+		"""
+		Additively loads students from a binary file previously saved by
+		saveToBinary.
+		"""
+		with open(filename, 'rb') as file:
+			students = pickle.load(file)
+			for student in students:
+				self.__students.append(Student(student[0], student[1], student[2]))
 
 	def print(self):
 		"""

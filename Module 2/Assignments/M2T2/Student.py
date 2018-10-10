@@ -38,6 +38,12 @@ class Student:
 		Utility method. Nicely prints student information.
 		"""
 		print(
-			self.__name[:20].rjust(20),
-			self.__program[:20].rjust(20),
-			format(self.__gpa, '.2f').rjust(6))
+			self.__name[:20].ljust(20),
+			self.__program[:20].ljust(20),
+			format(self.__gpa, '.2f').ljust(6))
+
+	def printHeader():
+		"""
+		Pretty prints a header to match 'print'.
+		"""
+		print(("Name").ljust(20), ("Program").ljust(20), ("GPA").ljust(6))
