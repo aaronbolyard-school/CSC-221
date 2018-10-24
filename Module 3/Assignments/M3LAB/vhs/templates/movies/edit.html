@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit Movie{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	{{ super() }}
+
+	<form method="post" class="col-sm-6">
+		<div class="form-group row">
+			<label for="title">Title</label>
+			<input class="form-control" name="title" id="title" required value="{{ movie.title }}">
+		</div>
+		<div class="form-group row">
+			<label for="price_code">Price Code</label>
+			<select class="form-control" name="price_code" id="price_code">
+				<option value="{{ Movie.PRICE_REGULAR }}" {{ "selected" if movie.price_code == Movie.PRICE_REGULAR else "" }}>Regular</option>
+				<option value="{{ Movie.PRICE_CHILDREN }}" {{ "selected" if movie.price_code == Movie.PRICE_CHILDREN else "" }}>Children's</option>
+				<option value="{{ Movie.PRICE_NEW }}" {{ "selected" if movie.price_code == Movie.PRICE_NEW else "" }}>New</option>
+			</select>
+		</div>
+		<div class="form-group row">
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<a class="btn btn-danger" href="{{ url_for('movies.delete', id=movie.id) }}">Delete</a>
+		</div>
+	</form>
+{% endblock %}

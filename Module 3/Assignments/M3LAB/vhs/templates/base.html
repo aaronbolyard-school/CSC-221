@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+	<head>
+		<title>{% block title %}{% endblock %} {% block title_suffix %}{% endblock %} - VHS</title>
+		{% block styles %}
+			<link href="{{bootstrap_find_resource('css/bootstrap.css', cdn='bootstrap')}}" rel="stylesheet">
+		{% endblock %}
+	</head>
+	<body>
+		<nav class="navbar navbar-default">
+			<ul class="nav navbar-nav mr-auto">
+				<li class="nav-item">
+					<a class="navbar-brand" href="{{ url_for('home.index') }}">VHS</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ url_for('movies.index') }}">Movies</a>
+				</li>
+				<li>
+					<a class="nav-link" href="{{ url_for('customers.index') }}">Customers</a>
+				</li>
+				{% block navbar_items %}{% endblock %}
+			</ul>
+		</nav>
+		<main class="container">
+			{%block header %}{% endblock %}
+			{% for message in get_flashed_messages() %}
+				<div class="alert alert-info alert-primary" role="alert">
+					{{ message }}
+				</div>
+			{% endfor %}
+			<div class="content">
+				{% block content %}
+				{% endblock %}
+			</div>
+		</main>
+</html>

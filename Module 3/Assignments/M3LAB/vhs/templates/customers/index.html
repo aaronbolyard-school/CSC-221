@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Customers{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	{{ super() }}
+
+	{% if customers|length == 0 %}
+		<p><b>There are no customers.</b></p>
+	{% else %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for customer in customers %}
+					<tr>
+						<td>
+							{{ customer.name }}
+						</td>
+						<td>
+							<a class="btn btn-primary" href="{{ url_for('customers.edit', id=customer.id) }}">Edit</a>
+							<a class="btn btn-danger" href="{{ url_for('customers.delete', id=customer.id) }}">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+
+	<a class="btn btn-primary" href="{{ url_for('customers.add') }}">Add Customer</a>
+{% endblock %}
