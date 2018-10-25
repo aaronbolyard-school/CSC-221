@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Add Rental{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	{{ super() }}
+
+	{% if movies|length == 0 %}
+		<p><b>There are no movies.</b></p>
+	{% else %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Title</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for movie in movies %}
+					<tr>
+						<td>
+							{{ movie.title }}
+						</td>
+						<td>
+							<a class="btn btn-primary" href="{{ url_for('rentals.add_assign', customer_id=customer.id, movie_id=movie.id) }}">Assign</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+{% endblock %}

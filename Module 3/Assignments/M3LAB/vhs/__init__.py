@@ -29,8 +29,10 @@ def create_app(test_config=None):
 	import vhs.views.home as home
 	import vhs.views.movies as movies
 	import vhs.views.customers as customers
+	import vhs.views.rentals as rentals
 	app.register_blueprint(home.bp)
 	app.register_blueprint(movies.bp)
 	app.register_blueprint(customers.bp)
+	app.register_blueprint(rentals.bp)
 
 	return app

@@ -3,8 +3,8 @@ from flask import (
     request, session, url_for
 )
 
-from vhs.model.movie import Movie
 from vhs.common.database import get_database
+from vhs.model.movie import Movie
 
 bp = Blueprint('movies', __name__, url_prefix='/movies')
 

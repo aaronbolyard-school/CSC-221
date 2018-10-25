@@ -52,13 +52,8 @@ def edit(id):
 def add():
 	database = get_database()
 
-	#try:
 	customer = Customer(name='Bob Smith')
 	database.session.add(customer)
 	database.session.commit()
 
 	return redirect(url_for("customers.edit", id=customer.id))
-	#except:
-	#	flash("Failed to add customer.")
-
-	#return redirect(url_for("customers.index"))

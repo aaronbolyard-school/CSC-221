@@ -25,6 +25,7 @@
 						</td>
 						<td>
 							<a class="btn btn-primary" href="{{ url_for('customers.edit', id=customer.id) }}">Edit</a>
+							<a class="btn btn-primary" href="{{ url_for('rentals.customer', id=customer.id) }}">Rentals</a>
 							<a class="btn btn-danger" href="{{ url_for('customers.delete', id=customer.id) }}">Delete</a>
 						</td>
 					</tr>

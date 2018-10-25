@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Rentals for {{ customer.name }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	{{ super() }}
+
+	<p><b>Points:</b> {{ frequent_renter_points }}</p>
+	<p><b>Amount Owed:</b> ${{ '%.2f' % total_amount }} 	
+
+	{% if rentals|length == 0 %}
+		<p><b>This customer hasn't rented any movies.</b></p>
+	{% else %}
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Movie</th>
+					<th>Rented On</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for rental in rentals %}
+					<tr>
+						<td>
+							{{ rental.movie.title }}
+						</td>
+						<td>
+							{{ rental.day_rented }}
+						</td>
+						<td>
+							<a class="btn btn-primary" href="{{ url_for('rentals.update', id=rental.id) }}">Update</a>
+							<a class="btn btn-danger" href="{{ url_for('rentals.delete', id=rental.id) }}">Delete</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+
+	<a class="btn btn-primary" href="{{ url_for('rentals.add_movie', id=customer.id) }}">Add Rental</a>
+{% endblock %}
