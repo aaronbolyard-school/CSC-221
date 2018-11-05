@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Result</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" type="text/css">
+    </head>
+    <body>
+        <main class="container">
+            {% if errors %}
+                <div class="alert alert-info alert-primary" role="alert">
+                    {{ errors|safe }}
+                </div>
+            {% endif %}
+            <p>Mode: {{ result }}</p>
+            <a href="{{ url_for('mode_page') }}">Click here to calculate again</a>
+        </main>
+    </body>
+</html>
