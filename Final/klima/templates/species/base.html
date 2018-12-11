@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block title_suffix %}- Species{% endblock %}
+
+{% block nav_content %}
+<li>
+	<a href="{{ url_for('species.list') }}">Species</a>
+</li>
+{% endblock %}

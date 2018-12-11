@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}View Klimamon{% endblock %}</h1>
+{% endblock %}
+
+{% block scripts %}
+<script>
+	var WIDTH = 256;
+	var HEIGHT = 256;
+
+	function drawClouds(ctx) {
+		ctx.fillStyle = '#fff';
+
+		var numClouds = Math.max(Math.floor({{ weather.cloud / 4 }}), 0);
+		var MIN_Y = 0;
+		var MAX_Y = 30;
+		var MAX_RADIUS = 32;
+		var MIN_RADIUS = 16;
+
+		console.log(numClouds);
+		for (var i = 0; i < numClouds; ++i) {
+			ctx.beginPath();
+			ctx.arc(
+				Math.random() * MIN_RADIUS + (i / numClouds) * WIDTH,
+				Math.random() * MAX_Y + MIN_Y,
+				Math.random() * MAX_RADIUS + MIN_RADIUS,
+				0,
+				Math.PI * 2);
+			ctx.fill();
+		}
+	}
+
+	function draw(pet) {
+		var ctx = document.getElementById("c").getContext("2d");
+
+		ctx.fillStyle = '#b4eef8';
+		ctx.fillRect(0, 0, WIDTH, HEIGHT);
+		ctx.fillStyle = '#66bf40';
+		ctx.fillRect(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+		ctx.drawImage(pet, 0, 0);
+		drawClouds(ctx);
+	}
+
+	fetch("/species/view/{{ pet.species.id }}")
+		.then(function(response) {
+			response.json()
+				.then(function(json) {
+					var petImage = new Image();
+					petImage.onload = function() {
+						draw(petImage);
+					}
+					petImage.crossOrigin = 'Anoymous';
+					petImage.src = json.image;	
+				});
+		});
+</script>
+{% endblock %}
+
+{% block content %}
+	<div id="kl-pet-container">
+		<canvas id="c" width="256px" height="256px">
+	</div>
+	<div id="kl-current-weather">
+		<table>
+			<tr>
+				<td><b>Temperature:</b></td>
+				<td>{{ weather.temp }}&deg; F</td>
+			</tr>
+			<tr>
+				<td><b>Wind:</b></td>
+				<td>{{ weather.wind }} mph</td>
+			</tr>
+			<tr>
+				<td><b>Rain:</b></td>
+				<td>{{ weather.rain }}"</td>
+			</tr>
+			<tr>
+				<td><b>Snow:</b></td>
+				<td>{{ weather.snow }}"</td>
+			</tr>
+			<tr>
+				<td><b>Cloudiness:</b></td>
+				<td>{{ weather.cloud }}%</td>
+			</tr>
+		</table>
+		<p>
+			The weather was updated at {{ weather.time.strftime('%B %d, %Y') }} at {{ weather.time.strftime('%I:%M %p')}}.
+		</p>
+	</div>
+{% endblock %}

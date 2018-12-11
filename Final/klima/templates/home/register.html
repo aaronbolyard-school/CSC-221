@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Register{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<form method="post">
+		<div>
+			<label for="name">Name</label>
+			<input class="form-control" name="name" required value="{{ form.name|e }}">
+		</div>
+		<div>
+			<label for="zip">Zip</label>
+			<input class="form-control" name="zip" required value="{{ form.zip|e }}">
+			<p>
+				Klima needs your zip for local weather information. Please note Klima only works in the United States.
+			</p>
+		</div>
+		<div>
+			<label for="email">Email</label>
+			<input name="email" required value="{{ form.email|e }}">
+		</div>
+		<div>
+			<label for="confirm-email">Confirm Email</label>
+			<input name="confirm-email" required>
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" name="password" required>
+		</div>
+		<div>
+			<label for="confirm-password">Confirm Password</label>
+			<input type="password" name="confirm-password" required>
+		</div>
+		<div>
+			<button type="submit">Register</button>
+		</div>
+	</form>
+{% endblock %}

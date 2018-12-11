@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Select Klimamon{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<ul>
+		{% for species in species %}
+			<li><a href="{{ url_for('pet.select', species_id=species.id) }}">{{ species.name }}</a></li>
+		{% endfor %}
+	</ul>
+{% endblock %}

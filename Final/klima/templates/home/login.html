@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block header %}
+	<h1>{% block title %}Login{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+	<form method="post">
+		<input type="hidden" name="url" value="{{ form.url }}">
+		<div>
+			<label for="email">Email</label>
+			<input name="email" required value="{{ form.email|e }}">
+		</div>
+		<div>
+			<label for="password">Password</label>
+			<input type="password" name="password">
+		</div>
+		<div>
+			<button type="submit">Login</button>
+			<button name="reset" value="true" type="submit">Reset Password</button>
+		</div>
+	</form>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+	<head>
+		<head>
+			<title>{% block title %}{% endblock %} {% block title_suffix %}{% endblock %} - Klima</title>
+			{% block styles %}
+				<link href="{{ url_for('static', filename='reset.css') }}" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+				<link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
+				<link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+			{% endblock %}
+		</head>
+	</head>
+	<body>
+		<nav>
+			{% block nav %}
+				<ul>
+					<li>
+						<a href="{{ url_for('home.index') }}">Home</a>
+					</li>
+					<li>
+						<a href="{{ url_for('home.go') }}">Go!</a>
+					</li>
+					{% block nav_content %}
+					{% endblock %}
+					<img class="logo" src="/static/images/logo.png" alt="Klima logo">
+				</ul>
+			{% endblock %}
+		</nav>
+		<main class="content">
+			<div class="nav-border">
+			</div>
+			<div class="content">
+				{%block header %}{% endblock %}
+				{% for message in get_flashed_messages() %}
+					<div class="alert" role="alert">
+						{{ message }}
+					</div>
+				{% endfor %}
+				<div class="content">
+					{% block content %}
+					{% endblock %}
+				</div>
+			</div>
+		</main>
+		{% block scripts %}
+		{% endblock %}
+	</body>
+</html>
