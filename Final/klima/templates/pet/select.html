@@ -7,7 +7,27 @@
 {% block content %}
 	<ul>
 		{% for species in species %}
-			<li><a href="{{ url_for('pet.select', species_id=species.id) }}">{{ species.name }}</a></li>
+			<li style="display: inline-block;">
+				<a href="{{ url_for('pet.select', species_id=species.id) }}">{{ species.name }}</a>
+				<p id="description-{{ species.id }}" />
+				<div id="image-{{ species.id }}" />
+				<script>
+					fetch("/species/view/{{ species.id }}")
+						.then(function(response) {
+							response.json()
+								.then(function(json) {
+									var petImage = new Image();
+									petImage.onload = function() {
+										document.getElementById("image-{{ species.id }}").appendChild(petImage);
+									}
+									petImage.crossOrigin = 'Anonymous';
+									petImage.src = json.image;
+
+									document.getElementById("description-{{ species.id }}").innerText = json.description;
+								})
+						});
+				</script>
+			</li>
 		{% endfor %}
 	</ul>
 {% endblock %}

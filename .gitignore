@@ -1,4 +1,6 @@
 __pycache__
+instance/
+flask_session/
 .pytest_cache
 .ipynb_checkpoints
 venv

@@ -89,7 +89,7 @@ def login():
 
 	form = {}
 	if request.method == 'GET':
-		form['url'] = request.args.get('url', None)
+		form['url'] = request.args.get('url', "")
 	elif request.method == 'POST':
 		email = request.form.get('email', "").strip()
 		password = request.form.get('password', "").strip()

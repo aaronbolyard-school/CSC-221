@@ -21,6 +21,11 @@
 					<li>
 						<a href="{{ url_for('home.go') }}">Go!</a>
 					</li>
+					{% if kl_current_user() %}
+						<li>
+							<a href="{{ url_for('home.logout') }}">Logout</a>
+						</li>
+					{% endif %}
 					{% block nav_content %}
 					{% endblock %}
 					<img class="logo" src="/static/images/logo.png" alt="Klima logo">

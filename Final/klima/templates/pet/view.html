@@ -10,7 +10,8 @@
 	var HEIGHT = 256;
 
 	function drawClouds(ctx) {
-		ctx.fillStyle = '#fff';
+		ctx.fillStyle = '#eee';
+		ctx.globalAlpha = 1.0;
 
 		var numClouds = Math.max(Math.floor({{ weather.cloud / 4 }}), 0);
 		var MIN_Y = 0;
@@ -31,6 +32,82 @@
 		}
 	}
 
+	function drawRain(ctx) {
+		ctx.fillStyle = '#52c5d6';
+		ctx.globalAlpha = 0.5;
+
+		var steps = Math.min({{ weather.rain }} * 2, 12);
+
+		var MAX_RADIUS = 12;
+		var MIN_RADIUS = 8;
+
+		for (var i = 0; i < steps; ++i) {
+			var x = i / steps * WIDTH;
+
+			for (var j = 0; j < steps; ++j) {
+				x += {{ weather.wind }} * 0.5;
+
+				var y;
+				if (i % 2 == 0) {
+					y = (j + 1) / steps * HEIGHT;
+				} else {
+					y = j / steps * HEIGHT;
+				}
+
+				var radius = Math.random() * MAX_RADIUS + MIN_RADIUS;
+
+				ctx.beginPath();
+				ctx.ellipse(
+					x, y,
+					radius,
+					radius * 2,
+					0,
+					0,
+					Math.PI * 2);
+				ctx.fill();
+			}
+		}
+	}
+
+	function drawSnow(ctx) {
+		ctx.fillStyle = '#fff';
+		ctx.globalAlpha = 0.8;
+
+		var steps = Math.min({{ weather.snow }} * 4, 8);
+
+		var MAX_RADIUS = 8;
+		var MIN_RADIUS = 6;
+		var JITTER = 16;
+
+		for (var i = 0; i < steps; ++i) {
+			var x = i / steps * WIDTH;
+
+			for (var j = 0; j < steps; ++j) {
+				x += {{ weather.wind }} * 0.75;
+
+				var y;
+				if (i % 2 == 0) {
+					y = (j + 1) / steps * HEIGHT;
+				} else {
+					y = j / steps * HEIGHT;
+				}
+
+				y += (Math.random() * 2 - 1) * JITTER;
+
+				var radius = Math.random() * MAX_RADIUS + MIN_RADIUS;
+
+				ctx.beginPath();
+				ctx.arc(
+					x,
+					y,
+					Math.random() * MAX_RADIUS + MIN_RADIUS,
+					0,
+					Math.PI * 2);
+				ctx.fill();
+			}
+		}
+	}
+
 	function draw(pet) {
 		var ctx = document.getElementById("c").getContext("2d");
 
@@ -39,6 +116,8 @@
 		ctx.fillStyle = '#66bf40';
 		ctx.fillRect(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
 		ctx.drawImage(pet, 0, 0);
+		drawRain(ctx);
+		drawSnow(ctx);
 		drawClouds(ctx);
 	}
 
@@ -50,7 +129,7 @@
 					petImage.onload = function() {
 						draw(petImage);
 					}
-					petImage.crossOrigin = 'Anoymous';
+					petImage.crossOrigin = 'Anonymous';
 					petImage.src = json.image;	
 				});
 		});
